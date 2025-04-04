@@ -1,26 +1,29 @@
 package ru.ifmo.third;
 
-import ru.ifmo.third.models.Adventure;
-import ru.ifmo.third.models.Galaxy;
-import ru.ifmo.third.models.Ship;
-import ru.ifmo.third.models.creatures.Gender;
-import ru.ifmo.third.models.creatures.Human;
-import ru.ifmo.third.models.environment.Climate;
-import ru.ifmo.third.models.environment.Planet;
-import ru.ifmo.third.models.environment.Sea;
-import ru.ifmo.third.models.environment.Shade;
-import ru.ifmo.third.models.words.Word;
-
-import java.util.List;
+import ru.ifmo.third.model.Empire;
+import ru.ifmo.third.model.adventures.Adventure;
+import ru.ifmo.third.model.adventures.ExploreExoticWorld;
+import ru.ifmo.third.model.alive.FurryAlphaCentaurian;
+import ru.ifmo.third.model.alive.SpaceCaptain;
+import ru.ifmo.third.model.triggers.Trigger;
+import ru.ifmo.third.model.triggers.TriggerHandler;
 
 public class Main {
     public static void main(String[] args) {
-        Human test = new Human("Тест", Gender.MALE, false, true, true);
-        Planet planet = new Planet("Тест", new Sea("Тест", Shade.AQUA), 12, Climate.ARCTIC).setPeople(List.of(test));
-        Galaxy galaxy = new Galaxy(
-                List.of(planet),
-                List.of(new Word("склон")),
-                List.of(new Adventure(new Ship(List.of(test), planet), new Planet("Тест 2", new Sea("Тест 2", Shade.BLUE), 12, Climate.MEDITERRANEAN)))
-        );
+        SpaceCaptain zaphod = new SpaceCaptain("Zaphod");
+        FurryAlphaCentaurian fluffy = new FurryAlphaCentaurian("Fluff");
+
+        TriggerHandler handler = new TriggerHandler();
+
+        handler.handleTrigger(Trigger.HEROIC_ACT, zaphod);
+        handler.handleTrigger(Trigger.UNKNOWN, fluffy);
+
+        Adventure sunAdventure = new ExploreExoticWorld();
+
+        zaphod.beginAdventure(sunAdventure);
+
+        Empire empire = Empire.getInstance();
+        empire.influenceBy(sunAdventure.completeAdventure());
     }
 }
+
