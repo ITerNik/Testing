@@ -1,6 +1,7 @@
 package second;
 
 import config.TimingRules;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,11 @@ public class Tests {
     @BeforeEach
     public void setUp() {
         heap = new FibonacciHeap<>();
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        heap = null;
     }
 
     @Test
