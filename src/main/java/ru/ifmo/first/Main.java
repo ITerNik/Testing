@@ -18,7 +18,7 @@ public class Main {
 
         csvExporter.exportToCSVWithNumPoints("trig.csv", -2 * Math.PI, 2 * Math.PI, 15, Math::sin, Math::cos, Math::tan, (x) -> 1 / Math.tan(x));
         csvExporter.exportToCSVWithNumPoints("log.csv", 0.001, 10, 15, Math::log, Math::log10, log2, log3, log5);
-        csvExporter.exportToCSV("sys.csv", -100, 100, 15.55, Main::systemFunction);
+        csvExporter.exportToCSV("sys.csv", -100, 100, 15.55, Main::systemFunction, Math::sin, Math::cos, Math::tan, (x) -> 1 / Math.tan(x), Math::log10, log2, log3, log5, Math::log);
     }
     
     private static double trigFunction(double x) {
