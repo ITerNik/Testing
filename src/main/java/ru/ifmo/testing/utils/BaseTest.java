@@ -1,45 +1,43 @@
 package ru.ifmo.testing.utils;
 
-import org.junit.jupiter.api.*;
+import lombok.Getter;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import ru.ifmo.testing.driver.DriverFactory;
 import ru.ifmo.testing.page.MainPage;
-import ru.ifmo.testing.report.ExtentManager;
-import ru.ifmo.testing.report.ExtentTestManager;
-import ru.ifmo.testing.report.ReportListener;
-import lombok.Getter;
+import ru.ifmo.testing.report.AllureSelenideExtention;
+import ru.ifmo.testing.report.AllureSeleniumExtension;
 
-@ExtendWith(ReportListener.class)
-public abstract class BaseTest {
+@Getter
+@ExtendWith(AllureSeleniumExtension.class)
+@ExtendWith(AllureSelenideExtention.class)
+public class BaseTest {
 
-    @Getter
-    protected static WebDriver driver;
+    private static final ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
     protected MainPage mainPage;
 
-    @BeforeAll
-    public static void setUpExtentReports() {
-        ExtentManager.createExtentReports();
+    public static WebDriver getDriver() {
+        return driverThread.get();
     }
 
     @BeforeEach
     public void preCondition(TestInfo testInfo) {
-        ExtentTestManager.startTest(testInfo.getDisplayName(), "");
-
-        driver = new DriverFactory().createInstance();
+        WebDriver driver = new DriverFactory().createInstance();
         driver.manage().window().maximize();
         driver.get(PropertyLoader.returnConfigValue("fl.url.base"));
+        driverThread.set(driver);
         mainPage = new MainPage(driver);
     }
 
     @AfterEach
-    public void postCondition(){
-        driver.quit();
-    }
-
-    @AfterAll
-    public static void tearDownExtentReports() {
-        ExtentManager.flushReports();
+    public void postCondition() {
+        WebDriver driver = driverThread.get();
+        if (driver != null) {
+            driver.quit();
+            driverThread.remove();
+        }
     }
 }
