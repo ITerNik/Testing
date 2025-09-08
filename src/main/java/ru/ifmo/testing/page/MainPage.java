@@ -15,6 +15,10 @@ public class MainPage extends BasePage {
     @Getter
     private WebElement navBar;
 
+    @FindBy(xpath = "//nav//a[@data-id='qa-head-sign-in']")
+    @Getter
+    private WebElement loginButton;
+
     public WebElement getLeftNavBarBlock () {
         return navBar.findElement(By.xpath("//div[@data-id='qa-head-ul-main']"));
     }

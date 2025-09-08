@@ -6,6 +6,7 @@ target/
 /allure-results/
 /.allure/
 /build/
+config.properties
 
 ### IntelliJ IDEA ###
 *.iws

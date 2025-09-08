@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Properties;
 
 public class PropertyLoader {
@@ -29,5 +30,9 @@ public class PropertyLoader {
             LOGGER.error(MessageFormat.format("Property {0} or directory not found inside of configuration files", property), e);
             throw new NoPropertiesException("Without configuration file!");
         }
+    }
+
+    public static List<String> returnConfigValues(final String property) {
+        return List.of(returnConfigValue(property).split(","));
     }
 }
