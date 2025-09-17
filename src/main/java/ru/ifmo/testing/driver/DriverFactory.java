@@ -2,17 +2,23 @@ package ru.ifmo.testing.driver;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class DriverFactory {
 
-    ChromeLocalDriverFactory chromeLocalDriverFactory;
-
-    public DriverFactory() {
-        ChromeOptions chromeOptions = new ChromeOptionsFactory().build();
-        chromeLocalDriverFactory = new ChromeLocalDriverFactory(chromeOptions);
-    }
+    private final String browser = System.getProperty("browser", "chrome");
 
     public WebDriver createInstance() {
-        return chromeLocalDriverFactory.driver();
+        return switch (browser.toLowerCase()) {
+            case "firefox" -> {
+                FirefoxOptions firefoxOptions = new FirefoxOptionsFactory().build();
+                yield new FirefoxLocalDriverFactory(firefoxOptions).driver();
+            }
+            default -> {
+                ChromeOptions chromeOptions = new ChromeOptionsFactory().build();
+                yield new ChromeLocalDriverFactory(chromeOptions).driver();
+            }
+        };
     }
 }
+

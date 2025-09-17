@@ -6,13 +6,13 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import ru.ifmo.testing.driver.DriverFactory;
 import ru.ifmo.testing.utils.BaseTest;
 
 public class AllureSeleniumExtension implements AfterTestExecutionCallback {
-
     @Override
     public void afterTestExecution(ExtensionContext context) {
-        WebDriver driver = BaseTest.getDriver();
+        WebDriver driver = new DriverFactory().createInstance();
         String testName = context.getDisplayName();
 
         takeScreenshot(testName, driver);

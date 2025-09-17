@@ -1,15 +1,15 @@
 package ru.ifmo.testing.scrapper;
 
 import org.openqa.selenium.Proxy;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.AbstractDriverOptions;
 import ru.ifmo.testing.utils.PropertyLoader;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-public class SeleniumScrapper {
-    public static void proxify(ChromeOptions options) {
+public class BrowserScrapper {
+    public static void proxify(AbstractDriverOptions<?> options) {
         List<String> proxyList = PropertyLoader.returnConfigValues("proxy.addresses");
 
         System.out.println(proxyList);
